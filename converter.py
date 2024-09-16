@@ -5,15 +5,30 @@ import argparse
 from pathlib import Path
 
 
-def main(input_path, output_path):
-    input_path = _validate_filepath(input_path)
-    output_path = _validate_filepath(output_path)
-    
-    print(f"input: {str(input_path)}")
-    print(f"output: {str(output_path)}")
+def main(input: str, output: str):
+    input_path = _validate_input(input)
+    output_path = _validate_output(output)
 
-def _validate_filepath(filepath):
-    path = Path(filepath)
+
+def _validate_input(input: str) -> Path:
+    input_path = Path(input)
+    if not input_path.is_absolute():
+        raise ValueError(f"Input '{input}' has to be an absolute path!")
+    elif not input_path.exists():
+        raise FileNotFoundError(f"Input '{input}' is not an existing file!")
+
+    return input_path
+
+
+def _validate_output(output: str) -> Path:
+    output_path = Path(output)
+    if not output_path.is_absolute():
+        raise ValueError(f"Output '{output}' has to be an absolute path!")
+    if not output_path.parent.exists():
+        raise FileNotFoundError(f"Output '{output}' parent directory does not exists!")
+
+    return output_path
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -31,17 +46,17 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--input",
-        dest="input_path",
-        help="Input file path name",
+        dest="input",
+        help="Absolute path to input file",
         required=True,
     )
     parser.add_argument(
         "--output",
-        dest="output_path",
-        help="Output file path name",
+        dest="output",
+        help="Absolute path to input file",
         required=True,
     )
 
     arguments = parser.parse_args()
 
-    main(arguments.input_path, arguments.output_path)
+    main(arguments.input, arguments.output)
