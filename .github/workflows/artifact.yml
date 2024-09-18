@@ -1,0 +1,27 @@
+name: Build and upload artifact
+
+on: [push]
+
+jobs:
+  artifact:
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Set Python version
+      - name: Setup Python 
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+      # Install pip dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+      - name: Build with PyInstaller
+        run: python -m PyInstaller converter.py
+      - name: Upload executable
+        uses: actions/upload-artifact@v4
+        with:
+          name: Converter
+          path: dist/
