@@ -18,14 +18,18 @@ def main(input: str, output: str) -> None:
             if line[0] == "P" and person:
                 try:
                     person_data = parse_person(person)
-                    target.write(dict2xml(person_data, wrap="person", indent=" ") + "\n")
+                    target.write(
+                        dict2xml(person_data, wrap="person", indent=" ") + "\n"
+                    )
                 except Exception as e:
-                    print(f"Failed to parse or write person {person} with exception: {e}")
+                    print(
+                        f"Failed to parse or write person {person} with exception: {e}"
+                    )
                 person = [line]
             else:
                 person.append(line)
 
-        #Handle last person
+        # Handle last person
         try:
             person_data = parse_person(person)
             target.write(dict2xml(person_data, wrap="person", indent=" ") + "\n")
@@ -88,15 +92,19 @@ def parse_person(data: list[str]) -> dict:
                     person_data["family"] = [temp_data]
                 add_to_family_data = True
             case _:
-                raise ValueError(f"Incorrect format was '{parts[0]}', expected P, T, A or F")
+                raise ValueError(
+                    f"Incorrect format was '{parts[0]}', expected P, T, A or F"
+                )
 
     return person_data
 
 
 def parse_p(parts: list[str]) -> dict:
     if len(parts) != 2:
-        raise ValueError(f"Incorrect length for format 'P' was {parts} expect [firstname, lastname]")
-    
+        raise ValueError(
+            f"Incorrect length for format 'P' was {parts} expect [firstname, lastname]"
+        )
+
     data = {"firstname": parts[0], "lastname": parts[1]}
 
     return data
@@ -104,8 +112,10 @@ def parse_p(parts: list[str]) -> dict:
 
 def parse_t(parts: list[str]) -> dict:
     if len(parts) != 2:
-        raise ValueError(f"Incorrect length for format 'T' was {parts} expect [mobile, landline]")
-    
+        raise ValueError(
+            f"Incorrect length for format 'T' was {parts} expect [mobile, landline]"
+        )
+
     data = {"mobile": parts[0], "landline": parts[1]}
 
     return data
@@ -113,8 +123,10 @@ def parse_t(parts: list[str]) -> dict:
 
 def parse_a(parts: list[str]) -> dict:
     if len(parts) != 3:
-        raise ValueError(f"Incorrect length for format 'A' was {parts} expect [street, city, postcode]")
-    
+        raise ValueError(
+            f"Incorrect length for format 'A' was {parts} expect [street, city, postcode]"
+        )
+
     data = {"street": parts[0], "city": parts[1], "postcode": parts[2]}
 
     return data
@@ -122,8 +134,10 @@ def parse_a(parts: list[str]) -> dict:
 
 def parse_f(parts: list[str]) -> dict:
     if len(parts) != 2:
-        raise ValueError(f"Incorrect length for format 'F' was {parts} expect [name, born]")
-    
+        raise ValueError(
+            f"Incorrect length for format 'F' was {parts} expect [name, born]"
+        )
+
     data = {"name": parts[0], "born": parts[1]}
 
     return data
