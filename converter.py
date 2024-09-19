@@ -15,6 +15,11 @@ def main(input: str, output: str) -> None:
         person = []
         for raw_line in source:
             line = raw_line.strip()
+
+            # Skip empty lines
+            if not line:
+                continue
+
             if line[0] == "P" and person:
                 try:
                     person_data = parse_person(person)
