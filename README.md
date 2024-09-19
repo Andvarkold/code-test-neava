@@ -14,8 +14,8 @@ Convert row based file format to a XML structure.
 
 options:  
 -h, --help       show this help message and exit  
---input INPUT    Absolute path to input file  
---output OUTPUT  Absolute path to input file
+--input INPUT    Absolute or relative path to input file  
+--output OUTPUT  Absolute or relative path to output file
 
 # Executable
 See the latest [artifact](https://github.com/Andvarkold/code-test-neava/actions/workflows/artifact.yml) workflow run for a package with an executable created using PyInstaller

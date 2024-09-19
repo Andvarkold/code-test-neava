@@ -31,8 +31,9 @@ def main(input: str, output: str) -> None:
 
         # Handle last person
         try:
-            person_data = parse_person(person)
-            target.write(dict2xml(person_data, wrap="person", indent=" ") + "\n")
+            if person:
+                person_data = parse_person(person)
+                target.write(dict2xml(person_data, wrap="person", indent=" ") + "\n")
         except Exception as e:
             print(f"Failed to parse or write person {person} with exception: {e}")
         target.write("</people>")
@@ -42,9 +43,7 @@ def main(input: str, output: str) -> None:
 
 def validate_input_argument(input: str) -> Path:
     input_path = Path(input)
-    if not input_path.is_absolute():
-        raise ValueError(f"Input '{input}' has to be an absolute path!")
-    elif not input_path.exists():
+    if not input_path.exists():
         raise FileNotFoundError(f"Input '{input}' is not an existing file!")
 
     return input_path
@@ -52,8 +51,6 @@ def validate_input_argument(input: str) -> Path:
 
 def validate_output_argument(output: str) -> Path:
     output_path = Path(output)
-    if not output_path.is_absolute():
-        raise ValueError(f"Output '{output}' has to be an absolute path!")
     if not output_path.parent.exists():
         raise FileNotFoundError(f"Output '{output}' parent directory does not exists!")
 
@@ -160,13 +157,13 @@ if __name__ == "__main__":
     parser.add_argument(
         "--input",
         dest="input",
-        help="Absolute path to input file",
+        help="Absolute or relative path to input file",
         required=True,
     )
     parser.add_argument(
         "--output",
         dest="output",
-        help="Absolute path to input file",
+        help="Absolute or relative path to output file",
         required=True,
     )
 
